@@ -1,4 +1,5 @@
 // Unggah desain poster: PNG masuk R2, database hanya memegang kuncinya (PRD FR-POSTER-04).
+import { randomUUID } from 'node:crypto';
 import { one } from '$lib/server/db';
 import { HttpError, handler, requireAdmin } from '$lib/server/api';
 import { DEFAULT_POSTER_AREA, POSTER_H, POSTER_W } from '$lib/render';
@@ -25,7 +26,7 @@ export const POST = handler(async (event) => {
 	if (w !== POSTER_W || h !== POSTER_H)
 		throw new HttpError(400, `Ukuran desain harus tepat ${POSTER_W} × ${POSTER_H} piksel, bukan ${w} × ${h}.`);
 
-	const key = `poster-templates/${event.params.id}/${crypto.randomUUID()}.png`;
+	const key = `poster-templates/${event.params.id}/${randomUUID()}.png`;
 	await putObject(key, bytes.buffer as ArrayBuffer, 'image/png');
 	const row = await one<{ asset_key: string | null }>(
 		`update poster_templates set kind = 'image', asset_key = $2, preset_id = null,
