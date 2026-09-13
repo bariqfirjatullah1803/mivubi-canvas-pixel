@@ -1,0 +1,20 @@
+/* MIVUBI Blok: font pixel buatan (scripts/build-pixel-font.py).
+   Paling tajam di ukuran kelipatan 10px (1 pixel font = 0,1 em). */
+@font-face {
+	font-family: 'MIVUBI Blok';
+	src: url('/fonts/mivubi-blok-regular.woff2') format('woff2');
+	font-weight: 400;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'MIVUBI Blok';
+	src: url('/fonts/mivubi-blok-bold.woff2') format('woff2');
+	font-weight: 700;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'MIVUBI Blok Display';
+	src: url('/fonts/mivubi-blok-display.woff2') format('woff2');
+	font-weight: 400;
+	font-display: swap;
+}

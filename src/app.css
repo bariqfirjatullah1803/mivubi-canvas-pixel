@@ -1,0 +1,385 @@
+/* Token dari DESIGN.md §4–§6. */
+:root {
+	--bg: #fffef5;
+	--panel: #fffef5;
+	--section-blue: #d8eeff;
+	--section-green: #e1f0cf;
+	--highlight: #fff0b3;
+	--primary: #08783f;
+	--on-primary: #fffef5;
+	--ink: #153d2b;
+	--outline: #153d2b;
+	--muted: #506d5e;
+	--line: #d0d7cd;
+	--danger: #a63e2d;
+	--focus: #08783f;
+	--board-ivory: #fbfaf4;
+	--glow: 251 250 244;
+	--shadow-panel: 0 14px 36px rgb(21 61 43 / 0.18);
+	--shadow-control: 0 8px 12px rgb(21 61 43 / 0.3);
+
+	--text-xs: 13px;
+	--text-sm: 14px;
+	--text-md: 16px;
+	--text-lg: 20px;
+	--text-xl: 25px;
+	--text-2xl: 31px;
+	--text-display: 49px;
+
+	--radius-xs: 4px;
+	--radius-sm: 8px;
+	--radius-md: 12px;
+	--radius-lg: 16px;
+	--radius-section: 24px;
+	--radius-board: 20px;
+
+	--outline-thin: 1.5px solid var(--outline);
+	--outline-strong: 2px solid var(--outline);
+
+	--font: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+	--bg: #10271c;
+	--panel: #173325;
+	--section-blue: #1b3346;
+	--section-green: #1f3a24;
+	--highlight: #3d3718;
+	--primary: #7ed3a0;
+	--on-primary: #10271c;
+	--ink: #fffef5;
+	--outline: #8fb8a0;
+	--muted: #b9c9bc;
+	--line: #2e4a3a;
+	--danger: #f08a78;
+	--focus: #fff0b3;
+	--glow: 16 39 28;
+	--shadow-panel: 0 14px 36px rgb(0 0 0 / 0.5);
+	--shadow-control: 0 8px 12px rgb(0 0 0 / 0.5);
+	color-scheme: dark;
+}
+
+@media (max-width: 600px) {
+	:root {
+		--text-display: 39px;
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--ink);
+	font-family: var(--font);
+	font-size: var(--text-md);
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p {
+	margin: 0;
+}
+
+h1,
+h2,
+h3 {
+	line-height: 1.2;
+	font-weight: 600;
+}
+
+a {
+	color: var(--primary);
+	text-underline-offset: 3px;
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+	color: inherit;
+}
+
+:focus-visible {
+	outline: 3px solid var(--focus);
+	outline-offset: 3px;
+}
+
+.num {
+	font-variant-numeric: tabular-nums;
+}
+
+.muted {
+	color: var(--muted);
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+/* Tombol, DESIGN §8.1 */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 44px;
+	padding: 0 16px;
+	border-radius: var(--radius-sm);
+	border: 0;
+	font-weight: 500;
+	font-size: var(--text-md);
+	cursor: pointer;
+	text-decoration: none;
+	white-space: nowrap;
+	transition:
+		background-color 0.15s,
+		transform 0.1s;
+}
+
+.btn:active:not(:disabled) {
+	transform: translateY(1px);
+}
+
+.btn:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+.btn-primary {
+	background: var(--primary);
+	color: var(--on-primary);
+}
+
+.btn-primary:hover:not(:disabled) {
+	background: color-mix(in srgb, var(--primary) 90%, var(--ink));
+}
+
+.btn-secondary {
+	background: var(--bg);
+	color: var(--ink);
+	border: var(--outline-thin);
+}
+
+.btn-secondary:hover:not(:disabled),
+.btn-secondary[aria-pressed='true'] {
+	background: var(--highlight);
+}
+
+.btn-text {
+	background: transparent;
+	color: var(--primary);
+	text-decoration: underline;
+	padding: 0 8px;
+}
+
+.btn-danger {
+	background: var(--danger);
+	color: var(--on-primary);
+}
+
+.btn-danger:hover:not(:disabled) {
+	background: color-mix(in srgb, var(--danger) 90%, var(--ink));
+}
+
+.btn-icon {
+	width: 44px;
+	padding: 0;
+}
+
+/* Field, DESIGN §8.7 */
+.field {
+	display: grid;
+	gap: 6px;
+}
+
+.field label,
+.field .label {
+	font-weight: 500;
+	font-size: var(--text-sm);
+}
+
+.field input,
+.field textarea,
+.field select {
+	min-height: 44px;
+	padding: 8px 12px;
+	border-radius: var(--radius-sm);
+	border: var(--outline-thin);
+	background: var(--bg);
+	width: 100%;
+}
+
+.field textarea {
+	min-height: 160px;
+	font-variant-numeric: tabular-nums;
+}
+
+.field [aria-invalid='true'] {
+	border: 2px solid var(--danger);
+}
+
+.field .help {
+	font-size: var(--text-sm);
+	color: var(--muted);
+}
+
+.field .error {
+	font-size: var(--text-sm);
+	color: var(--danger);
+}
+
+/* Badge, DESIGN §8.6 */
+.badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 2px 8px;
+	border-radius: var(--radius-xs);
+	border: var(--outline-thin);
+	font-size: var(--text-xs);
+	font-weight: 500;
+	background: var(--bg);
+}
+
+.badge.public {
+	background: var(--section-green);
+}
+
+.badge.draft {
+	background: var(--highlight);
+}
+
+.badge.hidden {
+	border-color: var(--danger);
+	color: var(--danger);
+}
+
+/* Dialog, DESIGN §8.4 */
+dialog.dlg {
+	width: min(600px, calc(100vw - 32px));
+	max-height: calc(100dvh - 32px);
+	padding: 0;
+	border: var(--outline-thin);
+	border-radius: var(--radius-lg);
+	background: var(--bg);
+	color: var(--ink);
+	box-shadow: var(--shadow-panel);
+}
+
+dialog.dlg::backdrop {
+	background: rgb(21 61 43 / 0.45);
+}
+
+.dlg-body {
+	display: grid;
+	gap: 16px;
+	padding: 24px;
+}
+
+.dlg-body h2 {
+	font-size: var(--text-lg);
+}
+
+.dlg-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 8px;
+}
+
+/* Kartu datar ber-outline */
+.card {
+	background: var(--bg);
+	border: var(--outline-thin);
+	border-radius: var(--radius-md);
+}
+
+/* Halaman masuk: kertas grid + kartu "blok" berbayang keras (DESIGN §8.14). */
+.grid-field {
+	background-color: var(--section-blue);
+	background-image:
+		linear-gradient(color-mix(in srgb, var(--outline) 12%, transparent) 1px, transparent 1px),
+		linear-gradient(90deg, color-mix(in srgb, var(--outline) 12%, transparent) 1px, transparent 1px);
+	background-size: 24px 24px;
+}
+
+.blok {
+	border: 2px solid var(--outline);
+	border-radius: var(--radius-xs);
+	box-shadow: 4px 4px 0 var(--outline);
+}
+
+button.blok {
+	transition:
+		transform 0.08s ease-out,
+		box-shadow 0.08s ease-out,
+		background-color 0.15s;
+}
+
+button.blok:active:not(:disabled) {
+	transform: translate(4px, 4px);
+	box-shadow: 0 0 0 var(--outline);
+}
+
+.section-blue {
+	background: var(--section-blue);
+	border-radius: var(--radius-section);
+}
+
+.section-green {
+	background: var(--section-green);
+	border-radius: var(--radius-section);
+}
+
+/* Banner galat, DESIGN §8.5 */
+.banner {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 16px;
+	border: 2px solid var(--danger);
+	border-radius: var(--radius-md);
+	background: var(--bg);
+}
+
+.banner p {
+	flex: 1;
+}
+
+/* Pergantian tema: warna baru melebar seperti lingkaran, bukan fade silang. */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+	z-index: 1;
+}
+::view-transition-new(root) {
+	z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		transition: none !important;
+		animation: none !important;
+	}
+}
