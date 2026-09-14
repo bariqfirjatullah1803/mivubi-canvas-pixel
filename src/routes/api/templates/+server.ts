@@ -1,11 +1,13 @@
 import { templateError, type Template } from '$lib/grid';
 import { one, q } from '$lib/server/db';
 import { HttpError, body, handler, requireAdmin } from '$lib/server/api';
+import { syncTemplateArtwork } from '$lib/server/templates';
 
-type Row = { id: string; name: string; colors: Record<string, string>; rows: string[] };
+type Row = { id: string; name: string; colors: Record<string, string>; rows: string[]; project_id: string | null };
+const out = ({ project_id, ...t }: Row) => ({ ...t, projectId: project_id });
 const MAX = 24;
 
-const listTemplates = () => q<Row>('select id, name, colors, rows from templates order by position, updated_at');
+const listTemplates = async () => (await q<Row>('select id, name, colors, rows, project_id from templates order by position, updated_at')).map(out);
 
 export const GET = handler(() => listTemplates());
 
@@ -21,15 +23,16 @@ export const POST = handler(async (event) => {
 
 	if (t.id) {
 		const row = await one<Row>(
-			'update templates set name = $2, colors = $3::jsonb, rows = $4::jsonb, updated_at = now() where id = $1 returning id, name, colors, rows',
+			'update templates set name = $2, colors = $3::jsonb, rows = $4::jsonb, updated_at = now() where id = $1 returning id, name, colors, rows, project_id',
 			[t.id, name, JSON.stringify(colors), JSON.stringify(t.rows)]
 		);
-		if (row) return row;
+		if (row) return out({ ...row, project_id: await syncTemplateArtwork(row) });
 	}
 	const n = Number((await one<{ n: string }>('select count(*) n from templates'))!.n);
 	if (n >= MAX) throw new HttpError(400, `Maksimal ${MAX} referensi.`);
-	return one<Row>(
-		'insert into templates (name, colors, rows, position) values ($1, $2::jsonb, $3::jsonb, $4) returning id, name, colors, rows',
+	const row = (await one<Row>(
+		'insert into templates (name, colors, rows, position) values ($1, $2::jsonb, $3::jsonb, $4) returning id, name, colors, rows, project_id',
 		[name, JSON.stringify(colors), JSON.stringify(t.rows), n + 1]
-	);
+	))!;
+	return out({ ...row, project_id: await syncTemplateArtwork(row) });
 });

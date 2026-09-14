@@ -906,6 +906,7 @@ Pola kecil yang dipakai pengunjung sebagai titik mulai. Halaman ini memakai kart
 - **Sel kosong** bertanda kotak-kotak halus supaya terbaca sebagai lubang pola, bukan blok putih.
 - Jalur kedua: tombol **Jadikan referensi** di tiap baris Moderasi (§13.3) mengangkat karya yang sudah ada. Polanya dipotong sebatas isi karya dan warnanya disimpan sebagai HEX, bukan nomor slot, jadi pola tetap benar kalau palet situs berganti.
 - Daftar kosong menyembunyikan tombol Referensi di Studio; tidak ada galeri kosong yang perlu dijelaskan.
+- Setiap referensi juga dipajang di Canvas World sebagai karya dengan kreator **MIVUBI**. Kartunya menautkan "Lihat di Canvas World" ke halaman `/art` karya tersebut. Ukurannya di World sama dengan hasil menempel pola itu di Studio.
 
 ### 13.6 Masuk Admin [DIBANGUN]
 
@@ -949,6 +950,7 @@ Area kerja Admin (`.work`) membuang padding-nya saat kerangka dalam mode `bare`,
 | C26 | Tema hanya Terang/Gelap, berganti lewat lingkaran View Transitions; landing selalu terang | Tiga pilihan untuk satu preferensi kecil; crossfade menghasilkan warna di luar palet | §9.3, §7.2 |
 | C29 | Logo resmi MIVUBI (`static/logo/`) menggantikan logo empat kotak buatan sendiri, dipasang lewat mask agar ikut `--ink` | Aset brand yang benar; satu berkas untuk semua tema | §8.12, §12 |
 | C33 | Navbar memakai logo saja, teks "MIVUBI" di sampingnya dihapus | Keputusan pemilik produk; nama produk sudah disebut judul halaman dan tab peramban | §8.12, §5 |
+| C34 | Referensi dipajang di Canvas World sebagai karya MIVUBI | Referensi adalah karya Admin; World dan papan landing tidak kosong di awal pameran | §13.5 |
 | C32 | Referensi pola dikelola Admin, ditempel dari Studio sebagai satu langkah yang bisa diurungkan | Template bawaan hanya hidup di kode dan tidak pernah sampai ke pengunjung sejak galeri landing dihapus (R3) | §13.5, §8.15, §7.3 |
 | C31 | Judul hero "Block Unblock" menggantikan "Satu blok. Banyak cerita." | Keputusan pemilik produk | §7.2, §10.4 |
 | C30 | Halaman Akun dan Masuk Admin memakai satu bahasa: kartu blok di atas kertas grid | Dua halaman masuk yang tidak saling mirip dan tidak mirip produknya; panel promosi mendorong form ke bawah lipatan di layar sempit | §7.7, §13.6, §8.14 |

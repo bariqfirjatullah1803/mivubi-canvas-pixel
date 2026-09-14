@@ -124,8 +124,8 @@
 	<div>
 		<h1>Referensi pola</h1>
 		<p class="muted">
-			Pola di sini muncul di tombol Referensi dalam Studio. Pengunjung memilih satu, lalu polanya menempel ke papan mereka dengan
-			warna palet terdekat. Bisa juga diangkat dari karya yang sudah ada lewat <a href="/admin/artworks">Moderasi</a>.
+			Pola di sini muncul di tombol Referensi dalam Studio dan dipajang di Canvas World sebagai karya MIVUBI. Pengunjung memilih
+			satu, lalu polanya menempel ke papan mereka dengan warna palet terdekat. Bisa juga diangkat dari karya yang sudah ada lewat <a href="/admin/artworks">Moderasi</a>.
 		</p>
 	</div>
 	<button class="btn btn-primary" onclick={create}>Referensi baru</button>
@@ -150,6 +150,7 @@
 				<div class="info">
 					<h2>{t.name}</h2>
 					<p class="muted small num">{s.w} × {s.h} sel · {Object.keys(t.colors).length} warna</p>
+					{#if t.projectId}<a class="small" href="/art/{t.projectId}">Lihat di Canvas World</a>{/if}
 				</div>
 				<div class="act">
 					<button class="btn btn-secondary" onclick={() => edit(t)}>Ubah</button>

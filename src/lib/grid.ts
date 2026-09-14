@@ -157,7 +157,7 @@ export function nearestSlot(hex: string, palette: PaletteColor[]): number {
 }
 
 // PRD Lampiran A
-export type Template = { id: string; name: string; colors: Record<string, string>; rows: string[] };
+export type Template = { id: string; name: string; colors: Record<string, string>; rows: string[]; projectId?: string | null };
 const rep = (s: string, n: number) => Array(n).fill(s);
 export const TEMPLATES: Template[] = [
 	{

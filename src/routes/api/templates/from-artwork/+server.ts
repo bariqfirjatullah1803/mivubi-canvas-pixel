@@ -2,6 +2,7 @@ import { templateError, templateFromProject } from '$lib/grid';
 import { HttpError, body, handler, requireAdmin } from '$lib/server/api';
 import { one } from '$lib/server/db';
 import { COLS, toProject, type Row } from '$lib/server/projects';
+import { syncTemplateArtwork } from '$lib/server/templates';
 
 export const POST = handler(async (event) => {
 	requireAdmin(event);
@@ -15,8 +16,10 @@ export const POST = handler(async (event) => {
 	if (err) throw new HttpError(400, `${err} Karya terlalu besar untuk dijadikan referensi.`);
 	const n = Number((await one<{ n: string }>('select count(*) n from templates'))!.n);
 	if (n >= 24) throw new HttpError(400, 'Maksimal 24 referensi.');
-	return one(
-		'insert into templates (name, colors, rows, position) values ($1, $2::jsonb, $3::jsonb, $4) returning id, name, colors, rows',
+	const row = (await one<typeof tpl & { project_id: string | null }>(
+		'insert into templates (name, colors, rows, position) values ($1, $2::jsonb, $3::jsonb, $4) returning id, name, colors, rows, project_id',
 		[tpl.name, JSON.stringify(tpl.colors), JSON.stringify(tpl.rows), n + 1]
-	);
+	))!;
+	const projectId = await syncTemplateArtwork(row);
+	return { id: row.id, name: row.name, colors: row.colors, rows: row.rows, projectId };
 });
