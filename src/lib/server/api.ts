@@ -4,7 +4,8 @@ import { json, type RequestEvent } from '@sveltejs/kit';
 export class HttpError extends Error {
 	constructor(
 		public status: number,
-		message: string
+		message: string,
+		public detail: Record<string, unknown> = {}
 	) {
 		super(message);
 	}
@@ -18,7 +19,7 @@ export function handler<T>(fn: (e: RequestEvent) => Promise<T>) {
 		try {
 			return json((await fn(event)) ?? {});
 		} catch (e) {
-			if (e instanceof HttpError) return json({ message: e.message }, { status: e.status });
+			if (e instanceof HttpError) return json({ message: e.message, detail: e.detail }, { status: e.status });
 			console.error(`[api] ${event.request.method} ${event.url.pathname}`, e);
 			return json({ message: 'Terjadi kesalahan di server.' }, { status: 500 });
 		}

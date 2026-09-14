@@ -1,5 +1,4 @@
 // Renderer papan blok magnet (PRD §6.3, DESIGN §3) dan poster PNG (PRD §13.7, DESIGN §12).
-import { assetUrl } from './assets';
 import { EMPTY, contrast, type Bounds, type Project } from './grid';
 
 export const IVORY = '#FBFAF4';
@@ -221,8 +220,7 @@ export const presetOf = (id: string | undefined) => POSTER_PRESETS.find((x) => x
 /** Satu pintu untuk katalog: preset digambar kode, image memakai berkas dari penyimpanan. */
 export async function renderPosterTemplate(p: Project, info: PosterInfo, tpl: PosterTemplate): Promise<HTMLCanvasElement> {
 	if (tpl.kind !== 'image') return renderPoster(p, info, presetOf(tpl.presetId));
-	const url = tpl.assetId ? await assetUrl(tpl.assetId) : null;
-	const overlay = url ? await loadImage(url).catch(() => null) : null;
+	const overlay = tpl.assetId ? await loadImage(`/api/assets/${tpl.assetId}`).catch(() => null) : null;
 	return renderImagePoster(p, tpl.area ?? DEFAULT_POSTER_AREA, overlay);
 }
 

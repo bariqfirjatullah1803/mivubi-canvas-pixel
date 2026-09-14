@@ -64,9 +64,10 @@ export const eligible = (r: Row) =>
 
 export async function ownRow(id: string, principal: { userId: string | null; deviceId: string }): Promise<Row> {
 	const r = await one<Row>(`select ${COLS} from projects where id = $1`, [id]);
-	if (!r || r.deleted_at) throw new HttpError(404, 'Karya tidak ditemukan.');
+	if (!r) throw new HttpError(404, 'Karya tidak ditemukan.');
 	const mine = principal.userId ? r.owner_user_id === principal.userId : r.owner_device_id === principal.deviceId && !r.owner_user_id;
 	if (!mine) throw new HttpError(403, 'Kamu tidak punya akses ke karya ini.');
+	if (r.deleted_at) throw new HttpError(410, 'Karya ini berada di Sampah.', { purgeAfter: r.purge_after });
 	return r;
 }
 

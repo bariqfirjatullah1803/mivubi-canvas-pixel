@@ -8,10 +8,19 @@
 
 	let { children } = $props();
 	const isLogin = $derived(page.url.pathname === '/admin/login');
-	const allowed = $derived(isLogin || adminSession());
+	// null = belum dicek. Dicek ulang tiap pindah halaman, jadi sesi yang kedaluwarsa ketahuan.
+	let admin = $state<boolean | null>(null);
+	const allowed = $derived(isLogin || admin === true);
 
 	$effect(() => {
-		if (!allowed) goto('/admin/login', { replaceState: true });
+		void page.url.pathname;
+		adminSession()
+			.then((v) => (admin = v))
+			.catch(() => (admin = false));
+	});
+
+	$effect(() => {
+		if (admin === false && !isLogin) goto('/admin/login', { replaceState: true });
 	});
 
 	const links: [string, string, string][] = [
@@ -22,8 +31,9 @@
 		['/admin/settings', 'Pengaturan', 'M12 8.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zM4 12h2M18 12h2M12 4v2M12 18v2']
 	];
 
-	function signOut() {
-		adminLogout();
+	async function signOut() {
+		await adminLogout().catch(() => {});
+		admin = false;
 		goto('/admin/login');
 	}
 </script>

@@ -15,7 +15,7 @@
 >
 > **v1.1**: seluruh klaim diverifikasi terhadap source HEAD `77873d0`. Rujukan `file:line` relatif ke root repo tersebut.
 >
-> **v1.2**: §1–§24 tetap merekam produk sumber dan tidak diubah isinya. Yang baru adalah **§25**, yang mencatat keputusan rebuild (R1–R19) yang sudah diterapkan di prototipe UI, plus penanda `[R#]` di klausa yang keputusannya menggantikan perilaku sumber. DESIGN.md v1.2 memuat spesifikasi visualnya.
+> **v1.2**: §1–§24 tetap merekam produk sumber dan tidak diubah isinya. Yang baru adalah **§25**, yang mencatat keputusan rebuild (R1–R20) yang sudah diterapkan di prototipe UI, plus penanda `[R#]` di klausa yang keputusannya menggantikan perilaku sumber. DESIGN.md v1.2 memuat spesifikasi visualnya.
 
 ---
 
@@ -1639,6 +1639,7 @@ Bagian ini mencatat keputusan yang diambil saat membangun prototipe UI di repo i
 | R17 | Judul hero landing menjadi **"Block Unblock"** | §7.1 butir 1, Lampiran D | Keputusan pemilik produk. Dua kata, dua baris, satu berat, tanpa titik; mengganti "Satu blok. Banyak cerita." | `src/routes/+page.svelte` |
 | R18 | **Referensi pola dikelola Admin.** Halaman Admin baru (`/admin/templates`) untuk menggambar pola 4–32 sel, plus tombol "Jadikan referensi" di Moderasi yang mengangkat karya yang sudah ada. Pengunjung menempelnya dari tombol **Referensi** di toolbar Studio, bukan dari galeri landing | §8.3 (F2), FR-HERO-04/05, §13.6, Lampiran A | Sejak galeri landing dihapus (R3), 6 template bawaan hanya hidup di kode dan tidak pernah sampai ke pengunjung. Menempelnya di Studio juga berlaku untuk karya yang sedang dikerjakan, bukan hanya papan baru. Pola disimpan sebagai HEX per simbol, jadi tetap benar setelah palet situs berganti; papan yang sudah ada isinya menawarkan Ganti papan / Tempel di atas, dan keduanya satu langkah yang bisa diurungkan | `src/lib/grid.ts`, `src/lib/store.ts`, `src/routes/admin/templates/+page.svelte`, `src/lib/components/{TemplateGrid,TemplatePicker,Studio}.svelte` |
 | R19 | Navbar, header Studio, dan rail Admin memakai **logo saja**; teks "MIVUBI" di sampingnya dihapus | §15.2, Lampiran D | Keputusan pemilik produk. Nama produk sudah muncul di judul halaman dan tab peramban, dan logo sendirian menyisakan ruang untuk navigasi di layar sempit. Logotype "MIVUBI" di poster PNG tidak ikut berubah | `src/lib/components/Brand.svelte` |
+| R20 | **Backend nyata.** UI tidak lagi memakai tiruan localStorage: semua data lewat SvelteKit `/api/*` ke Neon PostgreSQL (database terpisah dari data produk sumber), berkas desain poster ke Cloudflare R2. Sesi akun, perangkat, dan Admin berupa cookie httpOnly bertanda tangan; password scrypt; penempatan World dijaga exclusion constraint. Yang tetap di browser hanya cadangan draf, tema, dan penanda tutorial | §12, §13.4, §17, §19 | Karya harus terlihat oleh semua pengunjung, bukan hanya di browser pembuatnya. Database baru menghindari menulis ke data produksi lama; data contoh dummy tidak ikut, jadi World mulai kosong | `src/lib/store.ts`, `src/lib/server/*`, `src/routes/api/*`, `db/migrations/*`, `DEPLOY.md` |
 
 ### 25.1 Yang belum dikerjakan di prototipe
 

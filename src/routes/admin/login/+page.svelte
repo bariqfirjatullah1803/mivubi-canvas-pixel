@@ -10,7 +10,11 @@
 	let busy = $state(false);
 
 	$effect(() => {
-		if (adminSession()) goto('/admin', { replaceState: true });
+		adminSession()
+			.then((v) => {
+				if (v) goto('/admin', { replaceState: true });
+			})
+			.catch(() => {});
 	});
 
 	async function submit(e: SubmitEvent) {
